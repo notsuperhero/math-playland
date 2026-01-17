@@ -5,80 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Math Playland</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-            extend: {
-                colors: {
-                    border: "hsl(var(--border))",
-                    input: "hsl(var(--input))",
-                    ring: "hsl(var(--ring))",
-                    background: "hsl(var(--background))",
-                    foreground: "hsl(var(--foreground))",
-                    primary: {
-                        DEFAULT: "hsl(var(--primary))",
-                        foreground: "hsl(var(--primary-foreground))",
-                    },
-                    secondary: {
-                        DEFAULT: "hsl(var(--secondary))",
-                        foreground: "hsl(var(--secondary-foreground))",
-                    },
-                    muted: {
-                        DEFAULT: "hsl(var(--muted))",
-                        foreground: "hsl(var(--muted-foreground))",
-                    },
-                    accent: {
-                        DEFAULT: "hsl(var(--accent))",
-                        foreground: "hsl(var(--accent-foreground))",
-                    },
-                    destructive: {
-                        DEFAULT: "hsl(var(--destructive))",
-                        foreground: "hsl(var(--destructive-foreground))",
-                    },
-                    coral: {
-                        DEFAULT: "hsl(var(--coral))",
-                        foreground: "hsl(var(--coral-foreground))",
-                    },
-                    success: {
-                        DEFAULT: "hsl(var(--success))",
-                        foreground: "hsl(var(--success-foreground))",
-                    },
-                    card: {
-                        DEFAULT: "hsl(var(--card))",
-                        foreground: "hsl(var(--card-foreground))",
-                    }
-                },
-                fontFamily: {
-                    fredoka: ['Fredoka', 'sans-serif'],
-                    nunito: ['Nunito', 'sans-serif'],
-                }
-            }
-            }
-        }
-    </script>
 </head>
-<body class="font-nunito text-foreground min-h-screen py-8 px-4 select-none">
+<body>
 
     <!-- Header -->
-    <div class="text-center mb-8 fade-in">
-        <h1 class="text-4xl md:text-5xl font-fredoka font-bold text-foreground mb-2">
+    <div class="text-center mb-lg fade-in">
+        <h1 class="text-title font-fredoka font-bold">
             Math Fun
         </h1>
-        <p class="text-lg text-muted-foreground font-nunito">
+        <p class="text-subtitle font-nunito">
             Calculate and play your way to math mastery!
         </p>
     </div>
 
     <!-- Tab Switcher -->
-    <div class="flex justify-center mb-8">
-        <div class="bg-card rounded-2xl p-2 shadow-playful flex gap-2">
-            <button id="tab-calculator" class="flex items-center gap-2 px-6 py-3 rounded-xl font-fredoka font-semibold text-lg transition-all hover-scale scale-tap gradient-cool text-primary-foreground shadow-button">
+    <div class="flex-center mb-lg">
+        <div class="card flex-gap" style="padding: 0.5rem; border-radius: 1rem;">
+            <button id="tab-calculator" data-tab="calculator" class="btn btn-lg btn-tab active">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
                 Calculator
             </button>
-            <button id="tab-game" class="flex items-center gap-2 px-6 py-3 rounded-xl font-fredoka font-semibold text-lg transition-all hover-scale scale-tap text-muted-foreground hover:text-foreground">
+            <button id="tab-game" data-tab="game" class="btn btn-lg btn-tab">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="13" y2="13"/><line x1="18" x2="18.01" y1="11" y2="11"/><rect width="20" height="12" x="2" y="6" rx="2"/></svg>
                 Math Game
             </button>
@@ -86,40 +33,40 @@
     </div>
 
     <!-- Content Area -->
-    <div class="max-w-sm mx-auto">
+    <div class="container">
         
         <!-- Calculator -->
         <div id="content-calculator" class="tab-content active">
-            <div class="bg-card rounded-3xl p-6 shadow-playful slide-up">
-                <div class="bg-muted rounded-2xl p-4 mb-6">
-                    <div id="calc-display" class="text-right text-4xl md:text-5xl font-fredoka font-bold text-foreground truncate h-14">0</div>
-                    <div id="calc-sub-display" class="text-right text-lg text-muted-foreground font-nunito mt-1 h-7"></div>
+            <div class="card slide-up">
+                <div class="display-area">
+                    <div id="calc-display" class="text-display font-fredoka font-bold text-right">0</div>
+                    <div id="calc-sub-display" class="text-sub-display font-nunito text-right"></div>
                 </div>
 
-                <div class="grid grid-cols-4 gap-3">
-                    <button data-calc-action="clear" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-destructive text-destructive-foreground font-fredoka text-xl md:text-2xl font-semibold shadow-button hover-scale scale-tap">AC</button>
-                    <button data-calc-action="sign" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-muted text-foreground font-fredoka text-2xl md:text-3xl font-semibold shadow-button hover-scale scale-tap">±</button>
-                    <button data-calc-action="percent" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-muted text-foreground font-fredoka text-2xl md:text-3xl font-semibold shadow-button hover-scale scale-tap">%</button>
-                    <button data-calc-action="operator" data-calc-value="÷" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-coral text-coral-foreground font-fredoka text-2xl md:text-3xl font-semibold shadow-button hover-scale scale-tap">÷</button>
+                <div class="grid-4">
+                    <button data-calc-action="clear" class="btn btn-sq btn-destructive">AC</button>
+                    <button data-calc-action="sign" class="btn btn-sq btn-muted">±</button>
+                    <button data-calc-action="percent" class="btn btn-sq btn-muted">%</button>
+                    <button data-calc-action="operator" data-calc-value="÷" class="btn btn-sq btn-coral">÷</button>
 
-                    <button data-calc-action="number" data-calc-value="7" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-card text-foreground font-fredoka text-2xl md:text-3xl font-semibold shadow-button hover-scale scale-tap border-2 border-border">7</button>
-                    <button data-calc-action="number" data-calc-value="8" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-card text-foreground font-fredoka text-2xl md:text-3xl font-semibold shadow-button hover-scale scale-tap border-2 border-border">8</button>
-                    <button data-calc-action="number" data-calc-value="9" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-card text-foreground font-fredoka text-2xl md:text-3xl font-semibold shadow-button hover-scale scale-tap border-2 border-border">9</button>
-                    <button data-calc-action="operator" data-calc-value="×" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-coral text-coral-foreground font-fredoka text-2xl md:text-3xl font-semibold shadow-button hover-scale scale-tap">×</button>
+                    <button data-calc-action="number" data-calc-value="7" class="btn btn-sq btn-card">7</button>
+                    <button data-calc-action="number" data-calc-value="8" class="btn btn-sq btn-card">8</button>
+                    <button data-calc-action="number" data-calc-value="9" class="btn btn-sq btn-card">9</button>
+                    <button data-calc-action="operator" data-calc-value="×" class="btn btn-sq btn-coral">×</button>
 
-                    <button data-calc-action="number" data-calc-value="4" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-card text-foreground font-fredoka text-2xl md:text-3xl font-semibold shadow-button hover-scale scale-tap border-2 border-border">4</button>
-                    <button data-calc-action="number" data-calc-value="5" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-card text-foreground font-fredoka text-2xl md:text-3xl font-semibold shadow-button hover-scale scale-tap border-2 border-border">5</button>
-                    <button data-calc-action="number" data-calc-value="6" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-card text-foreground font-fredoka text-2xl md:text-3xl font-semibold shadow-button hover-scale scale-tap border-2 border-border">6</button>
-                    <button data-calc-action="operator" data-calc-value="-" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-coral text-coral-foreground font-fredoka text-2xl md:text-3xl font-semibold shadow-button hover-scale scale-tap">-</button>
+                    <button data-calc-action="number" data-calc-value="4" class="btn btn-sq btn-card">4</button>
+                    <button data-calc-action="number" data-calc-value="5" class="btn btn-sq btn-card">5</button>
+                    <button data-calc-action="number" data-calc-value="6" class="btn btn-sq btn-card">6</button>
+                    <button data-calc-action="operator" data-calc-value="-" class="btn btn-sq btn-coral">-</button>
 
-                    <button data-calc-action="number" data-calc-value="1" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-card text-foreground font-fredoka text-2xl md:text-3xl font-semibold shadow-button hover-scale scale-tap border-2 border-border">1</button>
-                    <button data-calc-action="number" data-calc-value="2" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-card text-foreground font-fredoka text-2xl md:text-3xl font-semibold shadow-button hover-scale scale-tap border-2 border-border">2</button>
-                    <button data-calc-action="number" data-calc-value="3" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-card text-foreground font-fredoka text-2xl md:text-3xl font-semibold shadow-button hover-scale scale-tap border-2 border-border">3</button>
-                    <button data-calc-action="operator" data-calc-value="+" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-coral text-coral-foreground font-fredoka text-2xl md:text-3xl font-semibold shadow-button hover-scale scale-tap">+</button>
+                    <button data-calc-action="number" data-calc-value="1" class="btn btn-sq btn-card">1</button>
+                    <button data-calc-action="number" data-calc-value="2" class="btn btn-sq btn-card">2</button>
+                    <button data-calc-action="number" data-calc-value="3" class="btn btn-sq btn-card">3</button>
+                    <button data-calc-action="operator" data-calc-value="+" class="btn btn-sq btn-coral">+</button>
 
-                    <button data-calc-action="number" data-calc-value="0" class="col-span-2 h-16 md:h-20 rounded-2xl bg-card text-foreground font-fredoka text-2xl md:text-3xl font-semibold shadow-button hover-scale scale-tap border-2 border-border">0</button>
-                    <button data-calc-action="decimal" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-card text-foreground font-fredoka text-3xl font-semibold shadow-button hover-scale scale-tap border-2 border-border">.</button>
-                    <button data-calc-action="calculate" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-primary text-primary-foreground font-fredoka text-2xl md:text-3xl font-semibold shadow-button hover-scale scale-tap">=</button>
+                    <button data-calc-action="number" data-calc-value="0" class="btn btn-sq btn-card col-span-2" style="width: 100%;">0</button>
+                    <button data-calc-action="decimal" class="btn btn-sq btn-card">.</button>
+                    <button data-calc-action="calculate" class="btn btn-sq btn-primary">=</button>
                 </div>
             </div>
         </div>
@@ -128,83 +75,83 @@
         <div id="content-game" class="tab-content">
             
             <!-- Game Menu -->
-            <div id="game-menu" class="bg-card rounded-3xl p-8 shadow-playful text-center slide-up">
-                <div class="text-6xl mb-4 animate-bounce">
+            <div id="game-menu" class="card slide-up text-center" style="padding: 2rem;">
+                <div class="mb-md animate-bounce">
                     <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto text-primary"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="13" y2="13"/><line x1="18" x2="18.01" y1="11" y2="11"/><rect width="20" height="12" x="2" y="6" rx="2"/></svg>
                 </div>
-                <h2 class="text-3xl font-fredoka font-bold text-foreground mb-2">Math Adventure</h2>
-                <p class="text-muted-foreground font-nunito mb-8">Choose your level and start playing!</p>
+                <h2 class="text-title font-fredoka font-bold">Math Adventure</h2>
+                <p class="text-subtitle font-nunito mb-lg">Choose your level and start playing!</p>
 
-                <div class="space-y-4">
-                    <button data-game-difficulty="easy" class="w-full py-4 rounded-2xl gradient-cool text-primary-foreground font-fredoka text-xl font-semibold shadow-button hover-scale scale-tap">
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <button data-game-difficulty="easy" class="btn btn-full btn-cool">
                         Easy (Addition)
                     </button>
-                    <button data-game-difficulty="medium" class="w-full py-4 rounded-2xl gradient-fun text-primary-foreground font-fredoka text-xl font-semibold shadow-button hover-scale scale-tap">
+                    <button data-game-difficulty="medium" class="btn btn-full btn-fun">
                         Medium (+/-)
                     </button>
-                    <button data-game-difficulty="hard" class="w-full py-4 rounded-2xl gradient-warm text-primary-foreground font-fredoka text-xl font-semibold shadow-button hover-scale scale-tap">
+                    <button data-game-difficulty="hard" class="btn btn-full btn-warm">
                         Hard (+/-/×)
                     </button>
                 </div>
             </div>
 
             <!-- Game Board (Hidden by default) -->
-            <div id="game-board" class="bg-card rounded-3xl p-6 shadow-playful relative overflow-hidden hidden slide-up">
+            <div id="game-board" class="card slide-up relative hidden">
                 <!-- Celebration Overlay -->
-                <div id="celebration-overlay">
+                <div id="celebration-overlay" class="overlay">
                     <div class="text-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent mx-auto mb-2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-                        <p id="celebration-text" class="text-2xl font-fredoka font-bold text-foreground"></p>
+                        <p id="celebration-text" class="text-title font-fredoka font-bold"></p>
                     </div>
                 </div>
 
                 <!-- Header -->
-                <div class="flex justify-between items-center mb-6">
-                    <div class="flex items-center gap-2">
+                <div class="flex-between mb-lg">
+                    <div class="flex-center" style="gap: 0.5rem;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
-                        <span id="game-score" class="font-fredoka font-bold text-xl text-foreground">0</span>
+                        <span id="game-score" class="font-fredoka font-bold" style="font-size: 1.25rem;">0</span>
                     </div>
-                    <div id="game-streak-stars" class="flex items-center gap-1">
+                    <div id="game-streak-stars" class="flex-center" style="gap: 0.25rem;">
                         <!-- Stars will be injected here -->
                     </div>
-                    <button id="btn-game-back" class="p-2 rounded-xl bg-muted hover-scale scale-tap">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    <button id="btn-game-back" class="btn btn-muted" style="padding: 0.5rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
                     </button>
                 </div>
 
                 <!-- Problem -->
-                <div class="bg-muted rounded-2xl p-6 mb-6 text-center">
-                    <div id="game-problem" class="text-4xl md:text-5xl font-fredoka font-bold text-foreground mb-4">
+                <div class="display-area text-center">
+                    <div id="game-problem" class="text-title font-fredoka font-bold mb-sm">
                         <!-- 10 + 5 = ? -->
                     </div>
 
-                    <div id="game-answer-display" class="text-5xl font-fredoka font-bold py-3 px-6 rounded-xl inline-block min-w-[120px] transition-colors text-foreground">
+                    <div id="game-answer-display" class="font-fredoka font-bold" style="font-size: 3rem; padding: 0.5rem 1rem;">
                         _
                     </div>
 
-                    <p id="game-feedback" class="h-6 mt-2 text-lg font-nunito font-semibold"></p>
+                    <p id="game-feedback" class="font-nunito font-semibold" style="height: 1.5rem; margin-top: 0.5rem;"></p>
                 </div>
 
                 <!-- Numpad -->
-                <div class="grid grid-cols-3 gap-3">
-                    <button data-game-num="1" class="h-14 md:h-16 rounded-2xl bg-card text-foreground font-fredoka text-2xl font-semibold shadow-button border-2 border-border hover-scale scale-tap">1</button>
-                    <button data-game-num="2" class="h-14 md:h-16 rounded-2xl bg-card text-foreground font-fredoka text-2xl font-semibold shadow-button border-2 border-border hover-scale scale-tap">2</button>
-                    <button data-game-num="3" class="h-14 md:h-16 rounded-2xl bg-card text-foreground font-fredoka text-2xl font-semibold shadow-button border-2 border-border hover-scale scale-tap">3</button>
+                <div class="grid-3">
+                    <button data-game-num="1" class="btn btn-sq-sm btn-card">1</button>
+                    <button data-game-num="2" class="btn btn-sq-sm btn-card">2</button>
+                    <button data-game-num="3" class="btn btn-sq-sm btn-card">3</button>
                     
-                    <button data-game-num="4" class="h-14 md:h-16 rounded-2xl bg-card text-foreground font-fredoka text-2xl font-semibold shadow-button border-2 border-border hover-scale scale-tap">4</button>
-                    <button data-game-num="5" class="h-14 md:h-16 rounded-2xl bg-card text-foreground font-fredoka text-2xl font-semibold shadow-button border-2 border-border hover-scale scale-tap">5</button>
-                    <button data-game-num="6" class="h-14 md:h-16 rounded-2xl bg-card text-foreground font-fredoka text-2xl font-semibold shadow-button border-2 border-border hover-scale scale-tap">6</button>
+                    <button data-game-num="4" class="btn btn-sq-sm btn-card">4</button>
+                    <button data-game-num="5" class="btn btn-sq-sm btn-card">5</button>
+                    <button data-game-num="6" class="btn btn-sq-sm btn-card">6</button>
 
-                    <button data-game-num="7" class="h-14 md:h-16 rounded-2xl bg-card text-foreground font-fredoka text-2xl font-semibold shadow-button border-2 border-border hover-scale scale-tap">7</button>
-                    <button data-game-num="8" class="h-14 md:h-16 rounded-2xl bg-card text-foreground font-fredoka text-2xl font-semibold shadow-button border-2 border-border hover-scale scale-tap">8</button>
-                    <button data-game-num="9" class="h-14 md:h-16 rounded-2xl bg-card text-foreground font-fredoka text-2xl font-semibold shadow-button border-2 border-border hover-scale scale-tap">9</button>
+                    <button data-game-num="7" class="btn btn-sq-sm btn-card">7</button>
+                    <button data-game-num="8" class="btn btn-sq-sm btn-card">8</button>
+                    <button data-game-num="9" class="btn btn-sq-sm btn-card">9</button>
 
-                    <button id="btn-game-clear" class="h-14 md:h-16 rounded-2xl bg-destructive text-destructive-foreground font-fredoka text-xl font-semibold shadow-button hover-scale scale-tap">C</button>
-                    <button data-game-num="0" class="h-14 md:h-16 rounded-2xl bg-card text-foreground font-fredoka text-2xl font-semibold shadow-button border-2 border-border hover-scale scale-tap">0</button>
-                    <button id="btn-game-backspace" class="h-14 md:h-16 rounded-2xl bg-muted text-foreground font-fredoka text-xl font-semibold shadow-button hover-scale scale-tap">←</button>
+                    <button id="btn-game-clear" class="btn btn-sq-sm btn-destructive" style="font-size: 1.25rem;">C</button>
+                    <button data-game-num="0" class="btn btn-sq-sm btn-card">0</button>
+                    <button id="btn-game-backspace" class="btn btn-sq-sm btn-muted">←</button>
                 </div>
 
-                <button id="btn-game-check" class="w-full mt-4 py-4 rounded-2xl gradient-fun text-primary-foreground font-fredoka text-xl font-semibold shadow-button hover-scale scale-tap">
+                <button id="btn-game-check" class="btn btn-full btn-fun" style="margin-top: 1rem;">
                     Check Answer
                 </button>
 

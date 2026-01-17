@@ -13,15 +13,9 @@ function switchTab(tabName) {
     Object.keys(tabs).forEach(key => {
         const btn = tabs[key];
         if (key === tabName) {
-            btn.classList.remove('text-muted-foreground', 'hover:text-foreground');
-            if (key === 'calculator') {
-                btn.classList.add('gradient-cool', 'text-primary-foreground', 'shadow-button');
-            } else {
-                btn.classList.add('gradient-warm', 'text-primary-foreground', 'shadow-button');
-            }
+            btn.classList.add('active');
         } else {
-            btn.classList.remove('gradient-cool', 'gradient-warm', 'text-primary-foreground', 'shadow-button');
-            btn.classList.add('text-muted-foreground', 'hover:text-foreground');
+            btn.classList.remove('active');
         }
     });
 
@@ -35,8 +29,12 @@ function switchTab(tabName) {
     });
 }
 
-document.getElementById('tab-calculator').addEventListener('click', () => switchTab('calculator'));
-document.getElementById('tab-game').addEventListener('click', () => switchTab('game'));
+// Add listeners safely
+const tabCalc = document.getElementById('tab-calculator');
+if (tabCalc) tabCalc.addEventListener('click', () => switchTab('calculator'));
+
+const tabGame = document.getElementById('tab-game');
+if (tabGame) tabGame.addEventListener('click', () => switchTab('game'));
 
 
 // --- Calculator Logic ---
@@ -49,11 +47,14 @@ const displayElement = document.getElementById('calc-display');
 const subDisplayElement = document.getElementById('calc-sub-display');
 
 function updateCalcDisplay() {
+    if (!displayElement) return;
     displayElement.textContent = calcDisplay;
-    if (calcOperation && calcPrevValue) {
-        subDisplayElement.textContent = `${calcPrevValue} ${calcOperation}`;
-    } else {
-        subDisplayElement.textContent = '';
+    if (subDisplayElement) {
+        if (calcOperation && calcPrevValue) {
+            subDisplayElement.textContent = `${calcPrevValue} ${calcOperation}`;
+        } else {
+            subDisplayElement.textContent = '';
+        }
     }
 }
 
@@ -174,23 +175,25 @@ function updateGameUI() {
         gameMenu.classList.add('hidden');
         gameBoard.classList.remove('hidden');
         
-        scoreEl.textContent = gameScore;
+        if (scoreEl) scoreEl.textContent = gameScore;
         
-        streakContainer.innerHTML = '';
-        const starCount = Math.min(gameStreak, 5);
-        for (let i = 0; i < starCount; i++) {
-            const star = document.createElement('span');
-            // Star SVG
-            star.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="hsl(var(--accent))" stroke="hsl(var(--accent))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-5 h-5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
-            star.className = 'animate-pop inline-block';
-            streakContainer.appendChild(star);
+        if (streakContainer) {
+            streakContainer.innerHTML = '';
+            const starCount = Math.min(gameStreak, 5);
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('span');
+                // Star SVG
+                star.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="hsl(var(--accent))" stroke="hsl(var(--accent))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+                star.className = 'animate-pop inline-block';
+                streakContainer.appendChild(star);
+            }
         }
         
-        if (gameProblem) {
+        if (gameProblem && problemEl) {
             problemEl.textContent = `${gameProblem.num1} ${gameProblem.operation} ${gameProblem.num2} = ?`;
         }
         
-        answerDisplayEl.textContent = gameUserAnswer || "_";
+        if (answerDisplayEl) answerDisplayEl.textContent = gameUserAnswer || "_";
     }
 }
 
@@ -217,9 +220,11 @@ function gameGenerateProblem() {
     gameUserAnswer = "";
     updateGameUI();
     
-    answerDisplayEl.classList.remove('text-success', 'text-destructive', 'text-foreground');
-    answerDisplayEl.classList.add('text-foreground');
-    feedbackEl.textContent = '';
+    if (answerDisplayEl) {
+        answerDisplayEl.classList.remove('text-success', 'text-destructive');
+        // answerDisplayEl.classList.add('text-foreground'); // Not strictly needed if default
+    }
+    if (feedbackEl) feedbackEl.textContent = '';
 }
 
 function gameCheckAnswer() {
@@ -228,11 +233,11 @@ function gameCheckAnswer() {
     const isCorrect = parseInt(gameUserAnswer) === gameProblem.answer;
     
     if (isCorrect) {
-        answerDisplayEl.classList.remove('text-foreground');
+        answerDisplayEl.classList.remove('text-foreground'); // just in case
         answerDisplayEl.classList.add('text-success');
         const encouragements = ["Great job!", "You're amazing!", "Keep it up!", "Brilliant!", "Fantastic!"];
         feedbackEl.textContent = encouragements[Math.floor(Math.random() * encouragements.length)];
-        feedbackEl.className = "text-lg font-nunito font-semibold text-success mt-2";
+        feedbackEl.className = "text-success"; // simplified class
         
         const points = gameDifficulty === "easy" ? 10 : gameDifficulty === "medium" ? 20 : 30;
         gameScore += points + (gameStreak * 5);
@@ -250,19 +255,22 @@ function gameCheckAnswer() {
         answerDisplayEl.classList.remove('text-foreground');
         answerDisplayEl.classList.add('text-destructive');
         feedbackEl.textContent = "Try again!";
-        feedbackEl.className = "text-lg font-nunito font-semibold text-destructive mt-2";
+        feedbackEl.className = "text-destructive"; // simplified class
         
         gameStreak = 0;
         setTimeout(() => {
-             feedbackEl.textContent = '';
-             answerDisplayEl.classList.remove('text-destructive');
-             answerDisplayEl.classList.add('text-foreground');
+             if (feedbackEl) feedbackEl.textContent = '';
+             if (answerDisplayEl) {
+                answerDisplayEl.classList.remove('text-destructive');
+                // answerDisplayEl.classList.add('text-foreground');
+             }
         }, 1500);
     }
     updateGameUI();
 }
 
 function showCelebration() {
+    if (!celebrationOverlay || !celebrationText) return;
     celebrationText.textContent = `${gameStreak} in a row!`;
     celebrationOverlay.classList.add('active');
     setTimeout(() => {
@@ -288,8 +296,11 @@ document.querySelectorAll('[data-game-difficulty]').forEach(btn => {
     btn.addEventListener('click', () => gameStart(btn.dataset.gameDifficulty));
 });
 
-document.getElementById('btn-game-back').addEventListener('click', gameStop);
-document.getElementById('btn-game-check').addEventListener('click', gameCheckAnswer);
+const btnGameBack = document.getElementById('btn-game-back');
+if (btnGameBack) btnGameBack.addEventListener('click', gameStop);
+
+const btnGameCheck = document.getElementById('btn-game-check');
+if (btnGameCheck) btnGameCheck.addEventListener('click', gameCheckAnswer);
 
 document.querySelectorAll('[data-game-num]').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -300,12 +311,14 @@ document.querySelectorAll('[data-game-num]').forEach(btn => {
     });
 });
 
-document.getElementById('btn-game-clear').addEventListener('click', () => {
+const btnGameClear = document.getElementById('btn-game-clear');
+if (btnGameClear) btnGameClear.addEventListener('click', () => {
     gameUserAnswer = "";
     updateGameUI();
 });
 
-document.getElementById('btn-game-backspace').addEventListener('click', () => {
+const btnGameBackspace = document.getElementById('btn-game-backspace');
+if (btnGameBackspace) btnGameBackspace.addEventListener('click', () => {
     gameUserAnswer = gameUserAnswer.slice(0, -1);
     updateGameUI();
 });
