@@ -4,7 +4,223 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Math Playland</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+
+        :root {
+            --background: 45 100% 96%;
+            --foreground: 250 30% 25%;
+
+            --card: 0 0% 100%;
+            --card-foreground: 250 30% 25%;
+
+            --primary: 173 58% 45%;
+            --primary-foreground: 0 0% 100%;
+
+            --secondary: 280 45% 65%;
+            --secondary-foreground: 0 0% 100%;
+
+            --muted: 45 40% 90%;
+            --muted-foreground: 250 20% 45%;
+
+            --accent: 35 95% 60%;
+            --accent-foreground: 250 30% 20%;
+
+            --destructive: 0 75% 60%;
+            --destructive-foreground: 0 0% 100%;
+
+            --coral: 10 80% 65%;
+            --coral-foreground: 0 0% 100%;
+
+            --success: 145 60% 45%;
+            --success-foreground: 0 0% 100%;
+
+            --border: 45 30% 85%;
+            --radius: 1rem;
+            --radius-lg: 1.5rem;
+            --radius-xl: 2rem;
+
+            --gradient-fun: linear-gradient(135deg, hsl(173 58% 45%), hsl(280 45% 65%));
+            --gradient-warm: linear-gradient(135deg, hsl(10 80% 65%), hsl(35 95% 60%));
+            --gradient-cool: linear-gradient(135deg, hsl(200 80% 60%), hsl(173 58% 45%));
+            --gradient-bg: linear-gradient(180deg, hsl(45 100% 96%) 0%, hsl(45 60% 92%) 100%);
+
+            --shadow-playful: 0 8px 30px -10px hsl(250 30% 25% / 0.15);
+            --shadow-button: 0 4px 15px -3px hsl(250 30% 25% / 0.2);
+        }
+
+        /* Reset & Base */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--gradient-bg);
+            color: hsl(var(--foreground));
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-family: inherit;
+            color: inherit;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Typography */
+        .font-fredoka { font-family: 'Fredoka', sans-serif; }
+        .font-nunito { font-family: 'Nunito', sans-serif; }
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .font-bold { font-weight: 700; }
+        .font-semibold { font-weight: 600; }
+
+        .text-title { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .text-subtitle { font-size: 1.125rem; color: hsl(var(--muted-foreground)); }
+        .text-display { font-size: 3rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .text-sub-display { font-size: 1.125rem; color: hsl(var(--muted-foreground)); height: 1.75rem; }
+
+        @media (min-width: 768px) {
+            .text-title { font-size: 3rem; }
+            .text-display { font-size: 4rem; }
+        }
+
+        /* Colors */
+        .text-success { color: hsl(var(--success)); }
+        .text-destructive { color: hsl(var(--destructive)); }
+        .text-accent { color: hsl(var(--accent)); }
+        .text-muted { color: hsl(var(--muted-foreground)); }
+
+        /* Layout Utilities */
+        .container { max-width: 24rem; margin: 0 auto; }
+        .flex-center { display: flex; justify-content: center; align-items: center; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        .flex-gap { display: flex; gap: 0.5rem; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+        .col-span-2 { grid-column: span 2; }
+        .mb-lg { margin-bottom: 2rem; }
+        .mb-md { margin-bottom: 1.5rem; }
+        .mb-sm { margin-bottom: 1rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .hidden { display: none !important; }
+        .w-full { width: 100%; }
+        .relative { position: relative; }
+
+        /* Components */
+        .card {
+            background-color: hsl(var(--card));
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-playful);
+        }
+
+        .display-area {
+            background-color: hsl(var(--muted));
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border-radius: var(--radius);
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            transition: all 0.2s;
+            box-shadow: var(--shadow-button);
+        }
+        .btn svg { pointer-events: none; } /* Ensure clicks hit the button */
+        .btn:hover { transform: scale(1.05); }
+        .btn:active { transform: scale(0.95); }
+
+        /* Button Sizes */
+        .btn-lg { padding: 0.75rem 1.5rem; font-size: 1.125rem; }
+        .btn-sq { width: 4rem; height: 4rem; font-size: 1.5rem; }
+        .btn-sq-sm { width: 3.5rem; height: 3.5rem; font-size: 1.5rem; }
+        .btn-full { width: 100%; padding: 1rem; font-size: 1.25rem; }
+
+        @media (min-width: 768px) {
+            .btn-sq { width: 5rem; height: 5rem; font-size: 2rem; }
+        }
+
+        /* Button Variants */
+        .btn-tab {
+            color: hsl(var(--muted-foreground));
+            background: transparent;
+            box-shadow: none;
+        }
+        .btn-tab:hover { color: hsl(var(--foreground)); }
+        .btn-tab.active {
+            color: hsl(var(--primary-foreground));
+            box-shadow: var(--shadow-button);
+        }
+        .btn-tab.active[data-tab="calculator"] { background: var(--gradient-cool); }
+        .btn-tab.active[data-tab="game"] { background: var(--gradient-warm); }
+
+        .btn-primary { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+        .btn-destructive { background: hsl(var(--destructive)); color: hsl(var(--destructive-foreground)); }
+        .btn-muted { background: hsl(var(--muted)); color: hsl(var(--foreground)); }
+        .btn-coral { background: hsl(var(--coral)); color: hsl(var(--coral-foreground)); }
+        .btn-card { 
+            background: hsl(var(--card)); 
+            color: hsl(var(--foreground)); 
+            border: 2px solid hsl(var(--border));
+        }
+
+        .btn-cool { background: var(--gradient-cool); color: hsl(var(--primary-foreground)); }
+        .btn-fun { background: var(--gradient-fun); color: hsl(var(--primary-foreground)); }
+        .btn-warm { background: var(--gradient-warm); color: hsl(var(--primary-foreground)); }
+
+        /* Animations */
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; opacity: 0; }
+        .slide-up { animation: slideUp 0.5s ease-out forwards; opacity: 0; transform: translateY(20px); }
+
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+
+        .animate-bounce { animation: bounce 2s infinite; }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(-10%); }
+            50% { transform: translateY(10%); }
+        }
+
+        .animate-pop { animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes pop {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+
+        /* Tab Logic */
+        .tab-content { display: none; animation: fadeIn 0.3s ease-out; }
+        .tab-content.active { display: block; }
+
+        /* Overlays */
+        .overlay {
+            display: none;
+            position: absolute;
+            inset: 0;
+            background-color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 50;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-xl);
+        }
+        .overlay.active { display: flex; animation: fadeIn 0.3s ease-out; }
+    </style>
 </head>
 <body>
 
@@ -160,6 +376,320 @@
 
     </div>
 
-    <script src="script.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- DOM Elements ---
+        const tabs = {
+            calculator: document.getElementById('tab-calculator'),
+            game: document.getElementById('tab-game')
+        };
+        
+        const contents = {
+            calculator: document.getElementById('content-calculator'),
+            game: document.getElementById('content-game')
+        };
+
+        // Calculator Elements
+        const displayElement = document.getElementById('calc-display');
+        const subDisplayElement = document.getElementById('calc-sub-display');
+        const calcButtons = document.querySelectorAll('[data-calc-action]');
+
+        // Game Elements
+        const gameMenu = document.getElementById('game-menu');
+        const gameBoard = document.getElementById('game-board');
+        const scoreEl = document.getElementById('game-score');
+        const streakContainer = document.getElementById('game-streak-stars');
+        const problemEl = document.getElementById('game-problem');
+        const answerDisplayEl = document.getElementById('game-answer-display');
+        const feedbackEl = document.getElementById('game-feedback');
+        const celebrationOverlay = document.getElementById('celebration-overlay');
+        const celebrationText = document.getElementById('celebration-text');
+        
+        // Game Buttons
+        const difficultyButtons = document.querySelectorAll('[data-game-difficulty]');
+        const gameNumButtons = document.querySelectorAll('[data-game-num]');
+        const btnGameBack = document.getElementById('btn-game-back');
+        const btnGameCheck = document.getElementById('btn-game-check');
+        const btnGameClear = document.getElementById('btn-game-clear');
+        const btnGameBackspace = document.getElementById('btn-game-backspace');
+
+        // --- State ---
+        let calcState = {
+            display: "0",
+            prevValue: null,
+            operation: null,
+            waitingForOperand: false
+        };
+
+        let gameState = {
+            difficulty: "easy",
+            score: 0,
+            streak: 0,
+            problem: null,
+            userAnswer: "",
+            started: false
+        };
+
+        // --- Tab Logic ---
+        function switchTab(tabName) {
+            // Update Buttons
+            Object.entries(tabs).forEach(([key, btn]) => {
+                if (!btn) return;
+                if (key === tabName) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Update Content
+            Object.entries(contents).forEach(([key, content]) => {
+                if (!content) return;
+                if (key === tabName) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+        }
+
+        if (tabs.calculator) tabs.calculator.addEventListener('click', () => switchTab('calculator'));
+        if (tabs.game) tabs.game.addEventListener('click', () => switchTab('game'));
+
+        // --- Calculator Logic ---
+        function updateCalcDisplay() {
+            if (displayElement) displayElement.textContent = calcState.display;
+            if (subDisplayElement) {
+                if (calcState.operation && calcState.prevValue) {
+                    subDisplayElement.textContent = `${calcState.prevValue} ${calcState.operation}`;
+                } else {
+                    subDisplayElement.textContent = '';
+                }
+            }
+        }
+
+        function handleCalcInput(action, value) {
+            switch (action) {
+                case 'number':
+                    if (calcState.waitingForOperand) {
+                        calcState.display = value;
+                        calcState.waitingForOperand = false;
+                    } else {
+                        calcState.display = calcState.display === "0" ? value : calcState.display + value;
+                    }
+                    break;
+                case 'decimal':
+                    if (calcState.waitingForOperand) {
+                        calcState.display = "0.";
+                        calcState.waitingForOperand = false;
+                    } else if (!calcState.display.includes(".")) {
+                        calcState.display += ".";
+                    }
+                    break;
+                case 'clear':
+                    calcState.display = "0";
+                    calcState.prevValue = null;
+                    calcState.operation = null;
+                    calcState.waitingForOperand = false;
+                    break;
+                case 'sign':
+                    calcState.display = String(parseFloat(calcState.display) * -1);
+                    break;
+                case 'percent':
+                    calcState.display = String(parseFloat(calcState.display) / 100);
+                    break;
+                case 'operator':
+                    const inputValue = parseFloat(calcState.display);
+                    if (calcState.prevValue === null) {
+                        calcState.prevValue = calcState.display;
+                    } else if (calcState.operation) {
+                        const result = calculate(parseFloat(calcState.prevValue), inputValue, calcState.operation);
+                        calcState.display = String(result);
+                        calcState.prevValue = String(result);
+                    }
+                    calcState.waitingForOperand = true;
+                    calcState.operation = value;
+                    break;
+                case 'calculate':
+                    if (!calcState.operation || calcState.prevValue === null) return;
+                    const result = calculate(parseFloat(calcState.prevValue), parseFloat(calcState.display), calcState.operation);
+                    calcState.display = String(result);
+                    calcState.prevValue = null;
+                    calcState.operation = null;
+                    calcState.waitingForOperand = true;
+                    break;
+            }
+            updateCalcDisplay();
+        }
+
+        function calculate(a, b, op) {
+            switch (op) {
+                case "+": return a + b;
+                case "-": return a - b;
+                case "×": return a * b;
+                case "÷": return b !== 0 ? a / b : 0;
+                default: return b;
+            }
+        }
+
+        calcButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                handleCalcInput(btn.dataset.calcAction, btn.dataset.calcValue);
+            });
+        });
+
+        // --- Math Game Logic ---
+        function updateGameUI() {
+            if (!gameMenu || !gameBoard) return;
+
+            if (!gameState.started) {
+                gameMenu.classList.remove('hidden');
+                gameBoard.classList.add('hidden');
+            } else {
+                gameMenu.classList.add('hidden');
+                gameBoard.classList.remove('hidden');
+                
+                if (scoreEl) scoreEl.textContent = gameState.score;
+                if (problemEl && gameState.problem) {
+                    problemEl.textContent = `${gameState.problem.num1} ${gameState.problem.operation} ${gameState.problem.num2} = ?`;
+                }
+                if (answerDisplayEl) answerDisplayEl.textContent = gameState.userAnswer || "_";
+                
+                // Render stars
+                if (streakContainer) {
+                    streakContainer.innerHTML = '';
+                    const starCount = Math.min(gameState.streak, 5);
+                    for (let i = 0; i < starCount; i++) {
+                        const star = document.createElement('span');
+                        star.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="hsl(var(--accent))" stroke="hsl(var(--accent))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+                        star.className = 'animate-pop inline-block';
+                        streakContainer.appendChild(star);
+                    }
+                }
+            }
+        }
+
+        function generateProblem() {
+            const operations = gameState.difficulty === "easy" ? ["+"] : gameState.difficulty === "medium" ? ["+", "-"] : ["+", "-", "×"];
+            const operation = operations[Math.floor(Math.random() * operations.length)];
+            
+            let maxNum = gameState.difficulty === "easy" ? 10 : gameState.difficulty === "medium" ? 20 : 12;
+            let num1 = Math.floor(Math.random() * maxNum) + 1;
+            let num2 = Math.floor(Math.random() * maxNum) + 1;
+            
+            // No negative answers
+            if (operation === "-" && num2 > num1) {
+                [num1, num2] = [num2, num1];
+            }
+            
+            let answer = 0;
+            switch (operation) {
+                case "+": answer = num1 + num2; break;
+                case "-": answer = num1 - num2; break;
+                case "×": answer = num1 * num2; break;
+            }
+            
+            gameState.problem = { num1, num2, operation, answer };
+            gameState.userAnswer = "";
+            
+            // Reset UI feedback
+            if (answerDisplayEl) {
+                answerDisplayEl.classList.remove('text-success', 'text-destructive');
+            }
+            if (feedbackEl) feedbackEl.textContent = '';
+            
+            updateGameUI();
+        }
+
+        function checkAnswer() {
+            if (!gameState.problem || gameState.userAnswer === "") return;
+            
+            const isCorrect = parseInt(gameState.userAnswer) === gameState.problem.answer;
+            
+            if (isCorrect) {
+                if (answerDisplayEl) answerDisplayEl.classList.add('text-success');
+                if (feedbackEl) {
+                    const encouragements = ["Great job!", "You're amazing!", "Keep it up!", "Brilliant!", "Fantastic!"];
+                    feedbackEl.textContent = encouragements[Math.floor(Math.random() * encouragements.length)];
+                    feedbackEl.className = "text-success";
+                }
+
+                const points = gameState.difficulty === "easy" ? 10 : gameState.difficulty === "medium" ? 20 : 30;
+                gameState.score += points + (gameState.streak * 5);
+                gameState.streak++;
+
+                if (gameState.streak > 0 && gameState.streak % 5 === 0) {
+                    showCelebration();
+                }
+
+                setTimeout(generateProblem, 1000);
+            } else {
+                if (answerDisplayEl) answerDisplayEl.classList.add('text-destructive');
+                if (feedbackEl) {
+                    feedbackEl.textContent = "Try again!";
+                    feedbackEl.className = "text-destructive";
+                }
+                
+                gameState.streak = 0;
+                setTimeout(() => {
+                    if (feedbackEl) feedbackEl.textContent = '';
+                    if (answerDisplayEl) answerDisplayEl.classList.remove('text-destructive');
+                }, 1500);
+            }
+            updateGameUI();
+        }
+
+        function showCelebration() {
+            if (!celebrationOverlay || !celebrationText) return;
+            celebrationText.textContent = `${gameState.streak} in a row!`;
+            celebrationOverlay.classList.add('active');
+            setTimeout(() => {
+                celebrationOverlay.classList.remove('active');
+            }, 2000);
+        }
+
+        // Game Event Listeners
+        difficultyButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                gameState.difficulty = btn.dataset.gameDifficulty;
+                gameState.score = 0;
+                gameState.streak = 0;
+                gameState.started = true;
+                generateProblem();
+                updateGameUI();
+            });
+        });
+
+        if (btnGameBack) btnGameBack.addEventListener('click', () => {
+            gameState.started = false;
+            updateGameUI();
+        });
+
+        if (btnGameCheck) btnGameCheck.addEventListener('click', checkAnswer);
+
+        gameNumButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (gameState.userAnswer.length < 4) {
+                    gameState.userAnswer += btn.dataset.gameNum;
+                    updateGameUI();
+                }
+            });
+        });
+
+        if (btnGameClear) btnGameClear.addEventListener('click', () => {
+            gameState.userAnswer = "";
+            updateGameUI();
+        });
+
+        if (btnGameBackspace) btnGameBackspace.addEventListener('click', () => {
+            gameState.userAnswer = gameState.userAnswer.slice(0, -1);
+            updateGameUI();
+        });
+
+        // Initialization
+        updateCalcDisplay();
+        switchTab('calculator');
+    });
+    </script>
 </body>
 </html>
