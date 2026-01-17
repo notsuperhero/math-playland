@@ -12,7 +12,7 @@ A fun math learning application for kids!
 ## Technology
 
 This project is built with vanilla **HTML, CSS, and JavaScript**.
-It uses [Tailwind CSS](https://tailwindcss.com/) via CDN for styling, maintaining the original design system.
+
 
 ## How to Run
 
