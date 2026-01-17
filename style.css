@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+
+:root {
+  --background: 45 100% 96%;
+  --foreground: 250 30% 25%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 250 30% 25%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 250 30% 25%;
+
+  --primary: 173 58% 45%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 280 45% 65%;
+  --secondary-foreground: 0 0% 100%;
+
+  --muted: 45 40% 90%;
+  --muted-foreground: 250 20% 45%;
+
+  --accent: 35 95% 60%;
+  --accent-foreground: 250 30% 20%;
+
+  --destructive: 0 75% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --coral: 10 80% 65%;
+  --coral-foreground: 0 0% 100%;
+
+  --success: 145 60% 45%;
+  --success-foreground: 0 0% 100%;
+
+  --border: 45 30% 85%;
+  --input: 45 30% 85%;
+  --ring: 173 58% 45%;
+
+  --radius: 1rem;
+
+  --sidebar-background: 0 0% 98%;
+  --sidebar-foreground: 240 5.3% 26.1%;
+  --sidebar-primary: 240 5.9% 10%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 4.8% 95.9%;
+  --sidebar-accent-foreground: 240 5.9% 10%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
+
+  --gradient-fun: linear-gradient(135deg, hsl(173 58% 45%), hsl(280 45% 65%));
+  --gradient-warm: linear-gradient(135deg, hsl(10 80% 65%), hsl(35 95% 60%));
+  --gradient-cool: linear-gradient(135deg, hsl(200 80% 60%), hsl(173 58% 45%));
+  --gradient-bg: linear-gradient(180deg, hsl(45 100% 96%) 0%, hsl(45 60% 92%) 100%);
+
+  --shadow-playful: 0 8px 30px -10px hsl(250 30% 25% / 0.15);
+  --shadow-button: 0 4px 15px -3px hsl(250 30% 25% / 0.2);
+  --shadow-glow: 0 0 20px hsl(173 58% 45% / 0.3);
+}
+
+.dark {
+  --background: 250 30% 12%;
+  --foreground: 45 50% 95%;
+
+  --card: 250 25% 18%;
+  --card-foreground: 45 50% 95%;
+
+  --popover: 250 25% 18%;
+  --popover-foreground: 45 50% 95%;
+
+  --primary: 173 58% 50%;
+  --primary-foreground: 250 30% 10%;
+
+  --secondary: 280 45% 60%;
+  --secondary-foreground: 0 0% 100%;
+
+  --muted: 250 20% 25%;
+  --muted-foreground: 45 30% 70%;
+
+  --accent: 35 95% 55%;
+  --accent-foreground: 250 30% 10%;
+
+  --destructive: 0 70% 55%;
+  --destructive-foreground: 0 0% 100%;
+
+  --coral: 10 75% 60%;
+  --coral-foreground: 0 0% 100%;
+
+  --success: 145 55% 50%;
+  --success-foreground: 250 30% 10%;
+
+  --border: 250 20% 25%;
+  --input: 250 20% 25%;
+  --ring: 173 58% 50%;
+
+  --sidebar-background: 240 5.9% 10%;
+  --sidebar-foreground: 240 4.8% 95.9%;
+  --sidebar-primary: 224.3 76.3% 48%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 240 3.7% 15.9%;
+  --sidebar-accent-foreground: 240 4.8% 95.9%;
+  --sidebar-border: 240 3.7% 15.9%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
+
+  --gradient-fun: linear-gradient(135deg, hsl(173 58% 50%), hsl(280 45% 60%));
+  --gradient-warm: linear-gradient(135deg, hsl(10 75% 60%), hsl(35 95% 55%));
+  --gradient-cool: linear-gradient(135deg, hsl(200 75% 55%), hsl(173 58% 50%));
+  --gradient-bg: linear-gradient(180deg, hsl(250 30% 12%) 0%, hsl(250 25% 8%) 100%);
+
+  --shadow-playful: 0 8px 30px -10px hsl(0 0% 0% / 0.4);
+  --shadow-button: 0 4px 15px -3px hsl(0 0% 0% / 0.3);
+  --shadow-glow: 0 0 20px hsl(173 58% 50% / 0.4);
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  background: var(--gradient-bg);
+  min-height: 100vh;
+  /* Font handled by Tailwind config */
+}
+
+.font-fredoka {
+  font-family: 'Fredoka', sans-serif;
+}
+
+.font-nunito {
+  font-family: 'Nunito', sans-serif;
+}
+
+.gradient-fun {
+  background: var(--gradient-fun);
+}
+
+.gradient-warm {
+  background: var(--gradient-warm);
+}
+
+.gradient-cool {
+  background: var(--gradient-cool);
+}
+
+.shadow-playful {
+  box-shadow: var(--shadow-playful);
+}
+
+.shadow-button {
+  box-shadow: var(--shadow-button);
+}
+
+.shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+/* Animations replacements for Framer Motion */
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scale-tap:active {
+  transform: scale(0.95);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s;
+}
+
+/* Tab content transition */
+.tab-content {
+  display: none;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Celebration Overlay */
+#celebration-overlay {
+    display: none;
+    position: absolute;
+    inset: 0;
+    background-color: rgba(var(--primary), 0.2); /* Approximation */
+    backdrop-filter: blur(4px);
+    z-index: 50;
+    align-items: center;
+    justify-content: center;
+}
+#celebration-overlay.active {
+    display: flex;
+    animation: fadeIn 0.3s ease-out;
+}
